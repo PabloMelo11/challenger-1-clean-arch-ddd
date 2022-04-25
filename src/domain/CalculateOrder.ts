@@ -6,7 +6,7 @@ export default class CalculateOrder {
 
   constructor(readonly items: Item[], readonly cupom?: Cupom) {}
 
-  calculate() {
+  public calculate(): number {
     let totalOrder = this.items.reduce((total, item) => {
       return (total += item.price * item.quantity);
     }, 0);

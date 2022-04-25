@@ -14,19 +14,19 @@ export default class Order {
     this.items = [];
   }
 
-  addItem(description: string, price: number, quantity: number) {
+  public addItem(description: string, price: number, quantity: number): void {
     this.items.push(new Item(description, price, quantity));
   }
 
-  showItems() {
+  public showItems(): Item[] {
     return this.items;
   }
 
-  addCupom(value: number) {
+  public addCupom(value: number): void {
     this.cupom = new Cupom(value);
   }
 
-  calculateTotal() {
+  public calculateTotal(): number {
     return new CalculateOrder(this.items, this.cupom).calculate();
   }
 }

@@ -8,23 +8,26 @@ export default class Cpf {
     if (!this.isValidate(cpf)) throw new Error('Cpf invalid!');
   }
 
-  hasValue(cpf: string): boolean {
+  private removeSpecialCharacter(cpf: string): string {
+    return cpf
+      .replace('.', '')
+      .replace('.', '')
+      .replace('-', '')
+      .replace(' ', '');
+  }
+
+  private hasValue(cpf: string): boolean {
     return cpf !== null || cpf !== undefined || cpf !== '';
   }
 
-  isValidateLength(cpf: string): boolean {
+  private isValidateLength(cpf: string): boolean {
     return cpf.length > 10 && cpf.length < 15;
   }
 
-  calculateRestDivisor(multiplicationSum: number): number {
-    const restDivision = multiplicationSum % this.DIVISOR;
-
-    return restDivision < this.MIN_REST_DIVISION
-      ? 0
-      : this.DIVISOR - restDivision;
-  }
-
-  calculateDigit(digits: string, initialNumberMultiplicate: number): number {
+  private calculateDigit(
+    digits: string,
+    initialNumberMultiplicate: number
+  ): number {
     let multiplicationSum = 0;
     let multiplicationNumber = initialNumberMultiplicate;
 
@@ -34,15 +37,15 @@ export default class Cpf {
       multiplicationNumber -= 1;
     }
 
-    return this.calculateRestDivisor(multiplicationSum);
+    const restDivision = multiplicationSum % this.DIVISOR;
+
+    return restDivision < this.MIN_REST_DIVISION
+      ? 0
+      : this.DIVISOR - restDivision;
   }
 
-  isValidate(cpf: string): boolean {
-    const cpfNumbersOnly = cpf
-      .replace('.', '')
-      .replace('.', '')
-      .replace('-', '')
-      .replace(' ', '');
+  private isValidate(cpf: string): boolean {
+    const cpfNumbersOnly = this.removeSpecialCharacter(cpf);
 
     if (!this.hasValue(cpf) || !this.isValidateLength(cpf)) return false;
 
